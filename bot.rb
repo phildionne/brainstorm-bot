@@ -22,12 +22,14 @@ class BrainstormBot < SlackRubyBot::Bot
     response = "*#{brainstorm.ideas.count}* ideas in *#{brainstorm.duration}* minutes... Wow, you rock! :the_horns:. Now take a look at your ideaboard and upvote the best ideas: #{brainstorm.board.url}"
     client.say(text: response, channel: data.channel)
 
-    client.say(text: "Type _start_ if you want to run another round.", channel: data.channel)
+    client.say(text: "Type `start` if you want to run another round.", channel: data.channel)
   end
 
   scan(/hello|hi/) do |client, data, match|
-    client.say(text: "Hey I’m Brian, your brainstorming bot. I can help you find tons of ideas quickly with awesome brainstorming games.", channel: data.channel)
-    client.say(text: "Type _start_ to start a brainstorm", channel: data.channel)
+    if brainstorm.state.sleeping?
+      client.say(text: "Hey I’m Brian, your brainstorming bot. I can help you find tons of ideas quickly with awesome brainstorming games.", channel: data.channel)
+      client.say(text: "Type `start` to start a brainstorm", channel: data.channel)
+    end
   end
 
   scan(/skip|next/) do |client, data, match|
@@ -39,7 +41,7 @@ class BrainstormBot < SlackRubyBot::Bot
     response = brainstorm.current_game[:subject]
     client.say(text: response, channel: data.channel)
 
-    response = "Timer set: *#{brainstorm.current_game[:timer]}*. #{brainstorm.current_game[:cheer]}"
+    response = "Timer set: *#{brainstorm.current_game[:timeout]}* minutes. #{brainstorm.current_game[:cheer]}"
     client.say(text: response, channel: data.channel)
   end
 
@@ -59,10 +61,10 @@ class BrainstormBot < SlackRubyBot::Bot
       response = brainstorm.current_game[:subject]
       client.say(text: response, channel: data.channel)
 
-      response = "Timer set: *#{brainstorm.current_game[:timer]}*. #{brainstorm.current_game[:cheer]}"
+      response = "Timer set: *#{brainstorm.current_game[:timeout]} minutes*. #{brainstorm.current_game[:cheer]}"
       client.say(text: response, channel: data.channel)
 
-      response = "Type _next_ if you want to switch games"
+      response = "Type `next` if you want to switch games"
       client.say(text: response, channel: data.channel)
 
     elsif brainstorm.state.waiting_for_idea?

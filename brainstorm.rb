@@ -10,36 +10,42 @@ end
 class Brainstorm
   attr_accessor :games, :state, :board, :current_list, :current_game, :ideas, :start_at, :end_at
 
+  GAMES = [
+    {
+      name: "Word Up",
+      description: "My first game is called *Word Up*: I shoot you a random word and you pitch an idea in relation to the word. ",
+      subject: "The words is: *#{RandomWord.nouns.next}*",
+      cheer: "Let’s go! :rocket:",
+      timeout: 1
+    },
+    {
+      name: "Meme Dream",
+      description: "Let’s build on that momentum with a game called *Meme Dream*. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
+      subject: "The meme is: #{RandomMeme.get_url}",
+      cheer: "Bring it on! :rocket:",
+      timeout: 1
+    },
+    {
+      name: "Sci-Fi",
+      description: "Let’s play a game called: *Sci-Fi*...",
+      subject: "*If you lived in 2080, how would you solve your problem?*",
+      cheer: "Keep firing up ideas! :raised_hands:",
+      timeout: 1
+    }
+  ]
+
   def initialize
-    @games = [
-      {
-        name: "Word Up",
-        description: "My first game is called *Word Up*: I shoot you a random word and you pitch an idea in relation to the word. ",
-        subject: "The words is: *#{RandomWord.nouns.next}*",
-        cheer: "Let’s go! :rocket:",
-        timer: "2 minutes"
-      },
-      {
-        name: "Meme Dream",
-        description: "Let’s build on that momentum with a game called *Meme Dream*. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
-        subject: "The meme is: #{RandomMeme.get_url}",
-        cheer: "Bring it on! :rocket:",
-        timer: "3 minutes"
-      },
-      {
-        name: "Sci-Fi",
-        description: "Let’s play a game called: *Sci-Fi*... Type _help_ if you don’t understand OR _next_ if you want to switch games.",
-        subject: "The question is: *If you lived in 2080, how would you solve this problem?*",
-        cheer: "Keep firing up ideas! :raised_hands:",
-        timer: "3 minutes"
-      }
-    ]
+    @games = GAMES.clone
     @state = State.new
     @ideas = Array.new
   end
 
   # Sets the current game to a new game and creates a Trello List
   def next_game
+    if games.none?
+      self.games = GAMES.clone
+    end
+
     self.current_game = games.shift
     create_game(self.current_game[:name], self.board.id)
   end
