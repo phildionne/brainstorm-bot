@@ -1,6 +1,7 @@
 require 'random-word'
 require 'aasm'
 require 'trello'
+require './random_meme'
 
 Trello.configure do |config|
   config.developer_public_key = ENV['TRELLO_API_KEY']
