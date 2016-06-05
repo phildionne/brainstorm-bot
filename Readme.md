@@ -4,5 +4,5 @@
 
 ```bash
 $ bundle install
-$ bundle exec ruby bot.rb
+$ foreman start
 ```
