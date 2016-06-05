@@ -11,36 +11,38 @@ class Brainstorm
     {
       name: "Word Up",
       description: "My first game is called Word Up: I shoot you a random word and you pitch an idea in relation to the word. ",
-      example: "example"
+      subject: "The words is: .....",
+      cheer: "Let’s go! :rocket:",
+      timer: "2 minutes"
     },
     {
       name: "Meme Dream",
-      description: "5 ideas :raised_hands:. Let’s build on that momentum with a game called Meme Dream. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
-      example: "example"
+      description: "Let’s build on that momentum with a game called Meme Dream. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
+      subject: "The meme is: ........",
+      cheer: "Bring it on! :rocket:",
+      timer: "3 minutes"
     },
     {
       name: "Sci-Fi",
-      description: "12 ideas: you guys are on :fire:. Let’s play another game called: Sci-Fi... Type go to get started,  help if you don’t understand OR next if you want to switch games.",
-      example: "example"
+      description: "Let’s play a game called: Sci-Fi... Type go to get started,  help if you don’t understand OR next if you want to switch games.",
+      subject: "If you lived in 2080, how would you solve this problem?",
+      cheer: "Keep firing up ideas! :raised_hands:",
+      timer: "3 minutes"
     }
   ]
 
-  attr_accessor :state, :board, :current_list, :current_game, :ideas, :start_at, :end_at
+  attr_accessor :games, :state, :board, :current_list, :current_game, :ideas, :start_at, :end_at
 
   def initialize
+    @games = GAMES.clone
     @state = State.new
     @ideas = Array.new
   end
 
   # Sets the current game to a new game and creates a Trello List
   def next_game
-    self.new_game
+    self.current_game = games.shift
     create_game(self.current_game[:name], self.board.id)
-  end
-
-  # Sets the current game to a new game
-  def new_game
-    self.current_game = GAMES.sample
   end
 
   # @param name [String]
@@ -73,6 +75,11 @@ class Brainstorm
   # @return [String]
   def game_response(game)
     game[:description]
+  end
+
+  # @return [Float] duration in minutes
+  def duration
+    (end_at - start_at) / 60
   end
 end
 
