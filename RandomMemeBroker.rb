@@ -3,8 +3,9 @@ class RandomMemeBroker
 
   def GetRandomMeme
     memesResponse = HTTP.get("http://api.imgflip.com/get_memes")
-    memes = memesResponse.parse
-    return memes["data"]["memes"][0]["url"]
+    memesJson = memesResponse.parse
+    memes = memesJson["data"]["memes"]
+    return memes[1 + Random.rand(memes.length)]["url"]
   end
 
 end
