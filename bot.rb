@@ -9,21 +9,21 @@ class BrainstormBot < SlackRubyBot::Bot
     @@brainstorm ||= Brainstorm.new
   end
 
-  help do
-    title 'Brian - Brainstorm Bot'
-    desc 'A bot to help you brainstorm with creative games.'
-
-    command 'start' do
-      desc 'Start a brainstorm'
-    end
-
-    command 'stop' do
-      desc 'Stop a brainstorm'
-    end
-
-    command 'skip/next' do
-      desc 'Start the next brainstorming game'
-    end
+  command 'help' do |client, data, match|
+    message = <<MSG
+*Brainstorm Bot* - A bot to help you brainstorm with creative games.
+*Commands:*
+*start* - Start a brainstorming session
+*stop* - Stop a brainstorming session
+*next* - Start the next brainstorming game
+*Other commands:*
+*help* - Shows this help information.
+*hi* - Says hello.
+*hello* - Says hello.
+For getting description of the command use: *help <command>*
+For more information see https://github.com/phildionne/brainstorm-bot.
+MSG
+    client.say(text: message, channel: data.channel)
   end
 
   command 'start' do |client, data, match|
