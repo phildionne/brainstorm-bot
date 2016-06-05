@@ -1,3 +1,4 @@
+require 'random-word'
 require 'aasm'
 require 'trello'
 
@@ -7,34 +8,32 @@ Trello.configure do |config|
 end
 
 class Brainstorm
-  GAMES = [
-    {
-      name: "Word Up",
-      description: "My first game is called Word Up: I shoot you a random word and you pitch an idea in relation to the word. ",
-      subject: "The words is: .....",
-      cheer: "Let’s go! :rocket:",
-      timer: "2 minutes"
-    },
-    {
-      name: "Meme Dream",
-      description: "Let’s build on that momentum with a game called Meme Dream. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
-      subject: "The meme is: ........",
-      cheer: "Bring it on! :rocket:",
-      timer: "3 minutes"
-    },
-    {
-      name: "Sci-Fi",
-      description: "Let’s play a game called: Sci-Fi... Type go to get started,  help if you don’t understand OR next if you want to switch games.",
-      subject: "If you lived in 2080, how would you solve this problem?",
-      cheer: "Keep firing up ideas! :raised_hands:",
-      timer: "3 minutes"
-    }
-  ]
-
   attr_accessor :games, :state, :board, :current_list, :current_game, :ideas, :start_at, :end_at
 
   def initialize
-    @games = GAMES.clone
+    @games = [
+      {
+        name: "Word Up",
+        description: "My first game is called *Word Up*: I shoot you a random word and you pitch an idea in relation to the word. ",
+        subject: "The words is: *#{RandomWord.nouns.next}*",
+        cheer: "Let’s go! :rocket:",
+        timer: "2 minutes"
+      },
+      {
+        name: "Meme Dream",
+        description: "Let’s build on that momentum with a game called *Meme Dream*. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
+        subject: "The meme is: #{RandomMeme.get_url}",
+        cheer: "Bring it on! :rocket:",
+        timer: "3 minutes"
+      },
+      {
+        name: "Sci-Fi",
+        description: "Let’s play a game called: *Sci-Fi*... Type _help_ if you don’t understand OR _next_ if you want to switch games.",
+        subject: "The question is: *If you lived in 2080, how would you solve this problem?*",
+        cheer: "Keep firing up ideas! :raised_hands:",
+        timer: "3 minutes"
+      }
+    ]
     @state = State.new
     @ideas = Array.new
   end
@@ -79,7 +78,7 @@ class Brainstorm
 
   # @return [Float] duration in minutes
   def duration
-    (end_at - start_at) / 60
+    ((end_at - start_at) / 60).round(2)
   end
 end
 
