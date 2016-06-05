@@ -34,6 +34,7 @@ class BrainstormBot < SlackRubyBot::Bot
 
   scan(/skip|next/) do |client, data, match|
     brainstorm.next_game
+    brainstorm.create_game(brainstorm.current_game[:name], brainstorm.board.id)
 
     response = brainstorm.game_response(brainstorm.current_game)
     client.say(text: response, channel: data.channel)
@@ -49,11 +50,12 @@ class BrainstormBot < SlackRubyBot::Bot
     if brainstorm.state.waiting_for_brainstorm_goal?
       brainstorm.state.set_brainstorm_goal
       brainstorm.create_brainstorm(data.text)
+
       brainstorm.next_game
+      brainstorm.create_game(brainstorm.current_game[:name], brainstorm.board.id)
 
       client.say(text: "Awesome. Let’s get started and get these creative juices flowing!", channel: data.channel)
 
-      brainstorm.create_game(brainstorm.current_game[:name], brainstorm.board.id)
 
       response = brainstorm.game_response(brainstorm.current_game)
       client.say(text: response, channel: data.channel)

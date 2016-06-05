@@ -48,7 +48,6 @@ class Brainstorm
     end
 
     self.current_game = games.shift
-    create_game(self.current_game[:name], self.board.id)
   end
 
   # @param name [String]
