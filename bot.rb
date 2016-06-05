@@ -9,6 +9,23 @@ class BrainstormBot < SlackRubyBot::Bot
     @@brainstorm ||= Brainstorm.new
   end
 
+  help do
+    title 'Brian - Brainstorm Bot'
+    desc 'A bot to help you brainstorm with creative games.'
+
+    command 'start' do
+      desc 'Start a brainstorm'
+    end
+
+    command 'stop' do
+      desc 'Stop a brainstorm'
+    end
+
+    command 'skip/next' do
+      desc 'Start the next brainstorming game'
+    end
+  end
+
   command 'start' do |client, data, match|
     brainstorm.state.start
     brainstorm.start_at = Time.now
