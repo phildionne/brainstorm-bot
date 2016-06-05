@@ -43,14 +43,14 @@ MSG
     client.say(text: "Type `start` if you want to run another round.", channel: data.channel)
   end
 
-  scan(/hello|hi/) do |client, data, match|
+  command 'hello', 'hi' do |client, data, match|
     if brainstorm.state.sleeping?
       client.say(text: "Hey I’m Brian, your brainstorming bot. I can help you find tons of ideas quickly with awesome brainstorming games.", channel: data.channel)
       client.say(text: "Type `start` to start a brainstorm", channel: data.channel)
     end
   end
 
-  scan(/skip|next/) do |client, data, match|
+  command 'skip', 'next' do |client, data, match|
     brainstorm.next_game
     brainstorm.create_game(brainstorm.current_game[:name], brainstorm.board.id)
 
