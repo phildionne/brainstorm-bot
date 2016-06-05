@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.4.1)
+    aasm (4.10.1)
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
