@@ -17,21 +17,21 @@ class Brainstorm
       description: "My first game is called *Word Up*: I shoot you a random word and you pitch an idea in relation to the word. ",
       subject: "The words is: *#{RandomWord.nouns.next}*",
       cheer: "Let’s go! :rocket:",
-      timeout: 1
+      timeout: 3
     },
     {
       name: "Meme Dream",
       description: "Let’s build on that momentum with a game called *Meme Dream*. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
       subject: "The meme is: #{RandomMeme.get_url}",
       cheer: "Bring it on! :rocket:",
-      timeout: 1
+      timeout: 2
     },
     {
       name: "Sci-Fi",
       description: "Let’s play a game called: *Sci-Fi*...",
       subject: "*If you lived in 2080, how would you solve your problem?*",
       cheer: "Keep firing up ideas! :raised_hands:",
-      timeout: 1
+      timeout: 3
     }
   ]
 
