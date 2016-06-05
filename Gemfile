@@ -7,3 +7,6 @@ gem 'ruby-trello'
 gem 'aasm'
 
 gem 'pry'
+
+gem 'random-word'
+gem 'http'
