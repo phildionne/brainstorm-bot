@@ -17,6 +17,7 @@ class BrainstormBot < SlackRubyBot::Bot
 
   command 'stop' do |client, data, match|
     brainstorm.state.stop
+    brainstorm.current_games = []
     brainstorm.end_at = Time.now
 
     response = "*#{brainstorm.ideas.count}* ideas in *#{brainstorm.duration}* minutes... Wow, you rock! :the_horns:. Now take a look at your ideaboard and upvote the best ideas: #{brainstorm.board.url}"

@@ -9,45 +9,47 @@ Trello.configure do |config|
 end
 
 class Brainstorm
-  attr_accessor :games, :state, :board, :current_list, :current_game, :ideas, :start_at, :end_at
-
-  GAMES = [
-    {
-      name: "Word Up",
-      description: "My first game is called *Word Up*: I shoot you a random word and you pitch an idea in relation to the word. ",
-      subject: "The words is: *#{RandomWord.nouns.next}*",
-      cheer: "Let’s go! :rocket:",
-      timeout: 3
-    },
-    {
-      name: "Meme Dream",
-      description: "Let’s build on that momentum with a game called *Meme Dream*. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
-      subject: "The meme is: #{RandomMeme.get_url}",
-      cheer: "Bring it on! :rocket:",
-      timeout: 2
-    },
-    {
-      name: "Sci-Fi",
-      description: "Let’s play a game called: *Sci-Fi*...",
-      subject: "*If you lived in 2080, how would you solve your problem?*",
-      cheer: "Keep firing up ideas! :raised_hands:",
-      timeout: 3
-    }
-  ]
+  attr_accessor :current_games, :state, :board, :current_list, :current_game, :ideas, :start_at, :end_at
 
   def initialize
-    @games = GAMES.clone
     @state = State.new
     @ideas = Array.new
+    @current_games = Array.new
+  end
+
+  def games
+    [
+      {
+        name: "Word Up",
+        description: "My first game is called *Word Up*: I shoot you a random word and you pitch an idea in relation to the word. ",
+        subject: "The words is: *#{RandomWord.nouns.next}*",
+        cheer: "Let’s go! :rocket:",
+        timeout: 3
+      },
+      {
+        name: "Meme Dream",
+        description: "Let’s build on that momentum with a game called *Meme Dream*. Here’s how it works: I show you a meme and you brainstorm ideas that tie it back to the problem you’re trying to solve.",
+        subject: "The meme is: #{RandomMeme.get_url}",
+        cheer: "Bring it on! :rocket:",
+        timeout: 2
+      },
+      {
+        name: "Sci-Fi",
+        description: "Let’s play a game called: *Sci-Fi*...",
+        subject: "*If you lived in 2080, how would you solve your problem?*",
+        cheer: "Keep firing up ideas! :raised_hands:",
+        timeout: 3
+      }
+    ]
   end
 
   # Sets the current game to a new game and creates a Trello List
   def next_game
-    if games.none?
-      self.games = GAMES.clone
+    if current_games.none?
+      self.current_games = self.games
     end
 
-    self.current_game = games.shift
+    self.current_game = current_games.shift
   end
 
   # @param name [String]
